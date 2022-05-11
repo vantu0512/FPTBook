@@ -23,9 +23,7 @@ namespace FPTBook.Controllers
             _logger = logger;
             _emailSender = emailSender;
             _userManager = userManager;
-        }
-
-       
+        }      
 
         public async Task<IActionResult> Index()
         {
