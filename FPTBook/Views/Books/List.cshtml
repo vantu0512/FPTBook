@@ -7,7 +7,7 @@
     <div class="form-actions no-color">
         <p>
             Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-default" /> |
+            <input type="submit" value="Search" class="btn button-green" /> |
             <a asp-action="Index">Back to Full List</a>
         </p>
     </div>
@@ -22,8 +22,8 @@
                       <div class="card-body">
                           <h5 class="card-title">@Model[i].Title</h5>
                           
-                          <a asp-action="Details" class="btn btn-primary" asp-route-id="@Model[i].Isbn">Details</a> |
-                          <a asp-action="AddToCart" asp-route-isbn="@Model[i].Isbn" class="btn btn-primary">Add to cart</a>
+                          <a asp-action="Details" class="btn button-green" asp-route-id="@Model[i].Isbn">Details</a> |
+                          <a asp-action="AddToCart" asp-route-isbn="@Model[i].Isbn" class="btn button-green">Add to cart</a>
                       </div>
                   </div>
               </div>
@@ -43,3 +43,14 @@
           </ul>
       </nav>
   </div>
+
+  <style>
+    .button-green{
+        color: #fff;
+    background-color: #7FFF00;
+    border-color: #7FFF00;
+    }
+    .button-green:hover{
+        color:#fff
+    }
+</style>
