@@ -1,0 +1,73 @@
+﻿@model IEnumerable<FPTBook.Models.Cart>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Your cart</h1>
+
+@if(Model.Count() >0)
+{
+    int stt = 1;
+    double total = 0;
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.Price)
+            </th>
+            <th>
+                 @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+               Total Item
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+       {
+                double tien = (item.Quantity) * (item.Book.Price);
+                total +=tien;
+                <tr>
+            <td>
+                @(stt++)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Price)
+            </td>
+            <td>
+					<a asp-action="removeItem" asp-route-isbn="@item.BookIsbn" class="btn btn-primary">-</a> @Html.DisplayFor(modelItem => item.Quantity) <a asp-action="UpdateCart" asp-route-isbn="@item.BookIsbn" class="btn btn-primary">+</a>
+			</td>
+            <td>
+                @(Math.Round((item.Quantity) * (item.Book.Price),1))
+            </td>
+            <td>
+                <a asp-action="Remove" asp-route-isbn="@item.BookIsbn" class="btn btn-primary">Remove</a>
+            </td>
+        </tr>
+}
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>Total: @(Math.Round(total,1))</td>
+</tr>
+    </tbody>
+    </table>
+    <a asp-controller="Books" asp-action="Checkout">Checkout</a>
+}
+else
+{
+    <p class="alert alert-danger">Check out Successfully</p>
+}
+ <a asp-controller="Orders" asp-action="Index">Orrder History</a>
