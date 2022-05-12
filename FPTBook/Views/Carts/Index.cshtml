@@ -51,7 +51,7 @@
                 @(Math.Round((item.Quantity) * (item.Book.Price),1))
             </td>
             <td>
-                <a asp-action="Remove" asp-route-isbn="@item.BookIsbn" class="btn btn-primary">Remove</a>
+                <a asp-action="Remove" asp-route-isbn="@item.BookIsbn" class="btn btn-primary">Remove<i class="fa-solid fa-trash"></i></a>
             </td>
         </tr>
 }
