@@ -175,34 +175,11 @@ namespace FPTBook.Controllers
             ViewData["StoreId"] = new SelectList(_context.Store, "Id", "Id");
             return View();
         }
-
-        // POST: Books/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize(Roles = "Seller")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(IFormFile image, [Bind("Isbn,Title,Pages,Author,Category,Price,Desc,ImgUrl")] Book book)
         {
-            //if (image != null)
-            //{
-            //    //set key name
-            //    string ImageName = book.Isbn + Path.GetExtension(image.FileName);
-
-            //    string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Image", ImageName);
-            //    using (var stream = new FileStream(SavePath, FileMode.Create))
-            //    {
-            //        image.CopyTo(stream);
-            //    }
-            //    book.ImgUrl = "Image/" + ImageName;
-            //    FPTBookUser thisUser = await _userManager.GetUserAsync(HttpContext.User);
-            //    Store thisStore = await _context.Store.FirstOrDefaultAsync(s => s.UId == thisUser.Id);
-            //    book.StoreId = thisStore.Id;
-            //}
-            //else
-            //{
-            //    return View(book);
-            //}
             FPTBookUser thisUser = await _userManager.GetUserAsync(HttpContext.User);
             Store thisStore = await _context.Store.FirstOrDefaultAsync(s => s.UId == thisUser.Id);
             book.StoreId = thisStore.Id;
@@ -242,16 +219,13 @@ namespace FPTBook.Controllers
         {
             if (id != book.Isbn)
             {
-                return NotFound();
-            }
-
+                return NotFound();            }
             if (ModelState.IsValid)
             {
                 var bookToUpdate = await _context.Book.FirstOrDefaultAsync(s => s.Isbn == id);
                 if (bookToUpdate == null)
                 {
-                    return NotFound();
-                }
+                    return NotFound();               }
                 bookToUpdate.Title = book.Title;
                 bookToUpdate.Pages = book.Pages;
                 bookToUpdate.Category = book.Category;
@@ -262,21 +236,17 @@ namespace FPTBook.Controllers
                 try
                 {
                     _context.Update(bookToUpdate);
-                    await _context.SaveChangesAsync();
-                }
+                    await _context.SaveChangesAsync();               }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!BookExists(book.Isbn))
                     {
-                        return NotFound();
-                    }
+                        return NotFound();                   }
                     else
                     {
                         throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
+                    }               }
+                return RedirectToAction(nameof(Index));            }
             ViewData["StoreId"] = new SelectList(_context.Store, "Id", "Id", book.StoreId);
             return View(book);
         }
