@@ -24,17 +24,6 @@ namespace FPTBook.Controllers
             _context = context;
             _userManager = userManager;
         }
-
-        // GET: Carts
-        public async Task<IActionResult> Index()
-        {
-            //var fPTBookContext = _context.Cart.Include(c => c.Book).Include(c => c.User);
-            // return View(await fPTBookContext.ToListAsync());
-            string thisUserId = _userManager.GetUserId(HttpContext.User);
-            return View(_context.Cart.Where(c => c.UId == thisUserId).Include(c => c.Book));
-        }
-
-        // GET: Carts/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -60,6 +49,14 @@ namespace FPTBook.Controllers
             ViewData["UId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
+        public async Task<IActionResult> Index()
+        {
+            //var fPTBookContext = _context.Cart.Include(c => c.Book).Include(c => c.User);
+            // return View(await fPTBookContext.ToListAsync());
+            string thisUserId = _userManager.GetUserId(HttpContext.User);
+            return View(_context.Cart.Where(c => c.UId == thisUserId).Include(c => c.Book));
+        }
+
 
         // POST: Carts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
