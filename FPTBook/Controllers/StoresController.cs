@@ -20,38 +20,17 @@ namespace FPTBook.Controllers
             _context = context;
         }
 
-        // GET: Stores
+        public IActionResult Create()
+        {
+            ViewData["UId"] = new SelectList(_context.Users, "Id", "Id");
+            return View();
+        }
         public async Task<IActionResult> Index()
         {
             var userContext = _context.Store.Include(s => s.User);
             return View(await userContext.ToListAsync());
         }
 
-        // GET: Stores/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var store = await _context.Store
-                .Include(s => s.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (store == null)
-            {
-                return NotFound();
-            }
-
-            return View(store);
-        }
-
-        // GET: Stores/Create
-        public IActionResult Create()
-        {
-            ViewData["UId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
-        }
 
         // POST: Stores/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -84,6 +63,23 @@ namespace FPTBook.Controllers
                 return NotFound();
             }
             ViewData["UId"] = new SelectList(_context.Users, "Id", "Id", store.UId);
+            return View(store);
+        }
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var store = await _context.Store
+                .Include(s => s.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (store == null)
+            {
+                return NotFound();
+            }
+
             return View(store);
         }
 
@@ -130,7 +126,6 @@ namespace FPTBook.Controllers
             {
                 return NotFound();
             }
-
             var store = await _context.Store
                 .Include(s => s.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -138,10 +133,8 @@ namespace FPTBook.Controllers
             {
                 return NotFound();
             }
-
             return View(store);
         }
-
         // POST: Stores/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
